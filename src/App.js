@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Video } from "./pages/Video";
 import { Home } from "./pages/Home";
+import { SignIn } from "./pages/SignIn";
 
 const Container = styled.div`
   display: flex;
@@ -30,7 +31,7 @@ export const App = () => {
           <Wrapper>
             <Routes>
               <Route path="/" element={<Home />} />
-              {/* <Route path="/signin" element={<SignIn />} /> */}
+              <Route path="/signin" element={<SignIn />} />
               <Route path="/video/:id" element={<Video />} />
             </Routes>
           </Wrapper>

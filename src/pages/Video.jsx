@@ -5,8 +5,10 @@ import {
   ThumbUpOutlined,
 } from "@mui/icons-material";
 import styled from "styled-components";
+import { Comments } from "../components/Comments";
+import { Card } from "../components/Card";
 
-const Contaner = styled.div`
+const Container = styled.div`
   display: flex;
   gap: 24px;
 `;
@@ -52,7 +54,7 @@ const Hr = styled.hr`
   border: 0.5px solid ${({ theme }) => theme.soft};
 `;
 
-const Reccomendation = styled.div`
+const Recommendation = styled.div`
   flex: 2;
 `;
 
@@ -106,7 +108,7 @@ const Subscribe = styled.button`
 
 export const Video = () => {
   return (
-    <Contaner>
+    <Container>
       <Content>
         <VideoWrapper>
           <iframe
@@ -158,8 +160,24 @@ export const Video = () => {
           </ChannelInfo>
           <Subscribe>SUBSCRIBE</Subscribe>
         </Channel>
+        <Hr />
+        <Comments />
       </Content>
-      <Reccomendation>recommendation</Reccomendation>
-    </Contaner>
+      <Recommendation>
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+        <Card type="sm" />
+      </Recommendation>
+    </Container>
   );
 };
