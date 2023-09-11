@@ -55,12 +55,12 @@ export const Card = ({ type }) => {
   return (
     <Link to="/video/test" style={{ textDecoration: "none" }}>
       <Container type={type}>
-        <Image type={type} src={image} />
+        <Image
+          type={type}
+          src="https://i.ytimg.com/vi/6NvKTcpkCJ8/maxresdefault.jpg"
+        />
         <Details type={type}>
-          <ChannelImage
-            type={type}
-            src="https://yt3.ggpht.com/yti/APfAmoE-Q0ZLJ4vk3vqmV4Kwp0sbrjxLyB8Q4ZgNsiRH=s88-c-k-c0x00ffffff-no-rj-mo"
-          />
+          <ChannelImage type={type} src={image} />
           <Texts>
             <Title>Test video</Title>
             <ChannelName>WhalePy</ChannelName>
