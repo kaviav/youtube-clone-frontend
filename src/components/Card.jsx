@@ -1,6 +1,9 @@
 import styled from "styled-components";
-import image from "../image/log.png";
+// import image from "../image/log.png";
 import { Link } from "react-router-dom";
+import { format } from "timeago.js";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Container = styled.div`
   width: ${(props) => props.type !== "sm" && "360px"};
@@ -51,20 +54,29 @@ const Info = styled.div`
   color: ${({ theme }) => theme.textSoft};
 `;
 
-export const Card = ({ type }) => {
+export const Card = ({ type, video }) => {
+  const [channel, setChannel] = useState({});
+
+  useEffect(() => {
+    const fetchChannel = async () => {
+      const res = await axios.get(`/user/getone/${video.userId}`);
+      setChannel(res.data);
+    };
+    fetchChannel();
+  }, [video.userId]);
+
   return (
     <Link to="/video/test" style={{ textDecoration: "none" }}>
       <Container type={type}>
-        <Image
-          type={type}
-          src="https://i.ytimg.com/vi/6NvKTcpkCJ8/maxresdefault.jpg"
-        />
+        <Image type={type} src={video.imageUrl} />
         <Details type={type}>
-          <ChannelImage type={type} src={image} />
+          <ChannelImage type={type} src={channel.image} />
           <Texts>
-            <Title>Test video</Title>
-            <ChannelName>WhalePy</ChannelName>
-            <Info>3455,678 views • 3 days ago</Info>
+            <Title>{video.title}</Title>
+            <ChannelName>{channel.name}</ChannelName>
+            <Info>
+              {video.views} views • {format(video.createdAt)} ago
+            </Info>
           </Texts>
         </Details>
       </Container>

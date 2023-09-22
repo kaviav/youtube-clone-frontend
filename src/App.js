@@ -30,7 +30,12 @@ export const App = () => {
           <Navbar />
           <Wrapper>
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<Home type="random" />} />
+              {/* fetching random videos in homepage. */}
+              <Route path="/trends" element={<Home type="trend" />} />
+              {/* fetching most viewed videos first */}
+              <Route path="/subscriptions" element={<Home type="sub" />} />
+              {/* fetches only the subscribed videos */}
               <Route path="/signin" element={<SignIn />} />
               <Route path="/video/:id" element={<Video />} />
             </Routes>

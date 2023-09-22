@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import log from "../image/log.png";
 
 const Container = styled.div`
   display: flex;
@@ -38,7 +39,7 @@ const Text = styled.span`
 export const Comment = () => {
   return (
     <Container>
-      <Avatar src="https://yt3.ggpht.com/yti/APfAmoE-Q0ZLJ4vk3vqmV4Kwp0sbrjxLyB8Q4ZgNsiRH=s88-c-k-c0x00ffffff-no-rj-mo" />
+      <Avatar src={log} />
       <Details>
         <Name>
           John Doe <Date>1 day ago</Date>
