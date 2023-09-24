@@ -56,17 +56,22 @@ const Info = styled.div`
 
 export const Card = ({ type, video }) => {
   const [channel, setChannel] = useState({});
+  console.log(video);
+  console.log(channel);
+  console.log(video.userId);
 
   useEffect(() => {
     const fetchChannel = async () => {
+      console.log(video.userId);
       const res = await axios.get(`/user/getone/${video.userId}`);
+
       setChannel(res.data);
     };
     fetchChannel();
   }, [video.userId]);
 
   return (
-    <Link to="/video/test" style={{ textDecoration: "none" }}>
+    <Link to={`/video/${video._id}`} style={{ textDecoration: "none" }}>
       <Container type={type}>
         <Image type={type} src={video.imageUrl} />
         <Details type={type}>

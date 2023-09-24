@@ -16,6 +16,7 @@ export const Home = ({ type }) => {
     const fetchVideos = async () => {
       const res = await axios.get(`/video/${type}`);
       setVideos(res.data);
+      console.log(res.data);
     };
     fetchVideos();
   }, [type]);
@@ -24,6 +25,7 @@ export const Home = ({ type }) => {
     <Container>
       {videos.map((video) => (
         <Card video={video} key={video._id} />
+
         //if u r using map, u hv to give a unique key for each item.
       ))}
     </Container>
