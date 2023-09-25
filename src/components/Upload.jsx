@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import {
   getStorage,
@@ -7,8 +9,6 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import app from "../firebase";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -20,6 +20,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
 `;
 
 const Wrapper = styled.div`
@@ -33,6 +34,7 @@ const Wrapper = styled.div`
   gap: 20px;
   position: relative;
 `;
+
 const Close = styled.div`
   position: absolute;
   top: 10px;
@@ -51,13 +53,14 @@ const Input = styled.input`
   background-color: transparent;
   z-index: 999;
 `;
-const Desc = styled.textarea`
+const Description = styled.textarea`
   border: 1px solid ${({ theme }) => theme.soft};
   color: ${({ theme }) => theme.text};
   border-radius: 3px;
   padding: 10px;
   background-color: transparent;
 `;
+
 const Button = styled.button`
   border-radius: 3px;
   border: none;
@@ -70,15 +73,16 @@ const Button = styled.button`
 const Label = styled.label`
   font-size: 14px;
 `;
+
 export const Upload = ({ setOpen }) => {
-  const [img, setImg] = useState(undefined);
-  const [video, setVideo] = useState(undefined);
-  const [imgPerc, setImgPerc] = useState(0);
+  const navigate = useNavigate();
+  const [image, setImage] = useState(null);
+  const [video, setVideo] = useState(null);
+  const [imagePerc, setImagePerc] = useState(0);
   const [videoPerc, setVideoPerc] = useState(0);
+  //
   const [inputs, setInputs] = useState({});
   const [tags, setTags] = useState([]);
-
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setInputs((prev) => {
@@ -89,9 +93,9 @@ export const Upload = ({ setOpen }) => {
   const handleTags = (e) => {
     setTags(e.target.value.split(","));
   };
-
+  //
   const uploadFile = (file, urlType) => {
-    const storage = getStorage(app);
+    const storage = getStorage(app); //app is frm firebase.js file
     const fileName = new Date().getTime() + file.name;
     const storageRef = ref(storage, fileName);
     const uploadTask = uploadBytesResumable(storageRef, file);
@@ -101,8 +105,8 @@ export const Upload = ({ setOpen }) => {
       (snapshot) => {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        urlType === "imgUrl"
-          ? setImgPerc(Math.round(progress))
+        urlType === "imageUrl"
+          ? setImagePerc(Math.round(progress))
           : setVideoPerc(Math.round(progress));
         switch (snapshot.state) {
           case "paused":
@@ -125,19 +129,25 @@ export const Upload = ({ setOpen }) => {
       }
     );
   };
-
+  //
   useEffect(() => {
     video && uploadFile(video, "videoUrl");
   }, [video]);
 
   useEffect(() => {
-    img && uploadFile(img, "imgUrl");
-  }, [img]);
+    image && uploadFile(image, "imageUrl");
+  }, [image]);
 
   const handleUpload = async (e) => {
     e.preventDefault();
-    const res = await axios.post("/videos", { ...inputs, tags });
+    const res = await axios.post("/video/add", {
+      ...inputs,
+      tags,
+    }); //see the below comment
+
+    console.log(res.data);
     setOpen(false);
+
     res.status === 200 && navigate(`/video/${res.data._id}`);
   };
 
@@ -145,16 +155,18 @@ export const Upload = ({ setOpen }) => {
     <Container>
       <Wrapper>
         <Close onClick={() => setOpen(false)}>X</Close>
-        <Title>Upload a New Video</Title>
+        {/* upload videos using firebase*/}
+        <Title>Upload a new video</Title>
         <Label>Video:</Label>
         {videoPerc > 0 ? (
-          "Uploading:" + videoPerc
+          "Uploading:" + videoPerc + "%"
         ) : (
           <Input
             type="file"
             accept="video/*"
             onChange={(e) => setVideo(e.target.files[0])}
           />
+          // [0] means can upload a single file only
         )}
         <Input
           type="text"
@@ -162,25 +174,25 @@ export const Upload = ({ setOpen }) => {
           name="title"
           onChange={handleChange}
         />
-        <Desc
+        <Description
           placeholder="Description"
-          name="desc"
+          name="description"
           rows={8}
           onChange={handleChange}
         />
         <Input
           type="text"
           placeholder="Separate the tags with commas."
-          onChance={handleTags}
+          onChange={handleTags}
         />
         <Label>Image:</Label>
-        {imgPerc > 0 ? (
-          "Uploading:" + imgPerc + "%"
+        {imagePerc > 0 ? (
+          "Uploading:" + imagePerc + "%"
         ) : (
           <Input
             type="file"
             accept="image/*"
-            onChange={(e) => setImg(e.target.files[0])}
+            onChange={(e) => setImage(e.target.files[0])}
           />
         )}
         <Button onClick={handleUpload}>Upload</Button>
@@ -188,3 +200,12 @@ export const Upload = ({ setOpen }) => {
     </Container>
   );
 };
+
+//   The three dots ({...}) are used to spread the contents of the inputs object into a new object, and then the tags array is included in that new object. This technique is called object spreading.
+// Here's what this line of code is doing step by step:
+
+// {...inputs}: This part takes the inputs object and spreads its properties into a new object. Essentially, it creates a shallow copy of the inputs object. This is commonly done to avoid directly mutating the original object.
+
+// , tags: After spreading inputs, it includes the tags property in the new object.
+
+// The purpose of this code is likely to combine all the data you want to send in the POST request into a single object. The axios.post method expects the data to be sent in the request body, and by spreading inputs and including tags, you're merging the data from both inputs and tags into a single object to be sent in the request body. This allows you to send all the necessary data to your server in one HTTP POST request.

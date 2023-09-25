@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice";
 import { auth, provider } from "../firebase";
 import { signInWithPopup } from "firebase/auth"; // a google signin pop up will be created once click the button
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -74,6 +75,7 @@ export const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -81,7 +83,8 @@ export const SignIn = () => {
     try {
       const res = await axios.post("/auth/signin", { name, password });
       dispatch(loginSuccess(res.data));
-      // console.log(res.data);
+      console.log(res.data);
+      navigate("/");
     } catch (err) {
       dispatch(loginFailure());
     }
@@ -99,7 +102,22 @@ export const SignIn = () => {
         })
       )
       .then((res) => dispatch(loginSuccess(res.data)))
+      .then(navigate("/"))
       .catch((err) => dispatch(loginFailure()));
+  };
+
+  // register functionality
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    dispatch(loginStart);
+    try {
+      const res = await axios.post("/auth/signup", { name, email, password });
+      dispatch(loginSuccess(res.data));
+      // console.log(res.data);
+      navigate("/");
+    } catch (err) {
+      dispatch(loginFailure());
+    }
   };
 
   return (
@@ -131,7 +149,7 @@ export const SignIn = () => {
           placeholder="password"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button>Sign up</Button>
+        <Button onClick={handleSignup}>Sign up</Button>
       </Wrapper>
       <More>
         English(USA)

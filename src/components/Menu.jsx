@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Whalepylogo from "../image/logo.png";
+import logo from "../image/logo.png";
 import HomeIcon from "@mui/icons-material/Home";
 import {
   AccountCircleOutlined,
@@ -92,14 +92,16 @@ export const Menu = ({ darkMode, setDarkMode }) => {
       <Wrapper>
         <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
           <Logo>
-            <Image src={Whalepylogo} />
+            <Image src={logo} />
             WUTUBE
           </Logo>
         </Link>
-        <Item>
-          <HomeIcon />
-          Home
-        </Item>
+        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+          <Item>
+            <HomeIcon />
+            Home
+          </Item>
+        </Link>
         <Link to="trends" style={{ textDecoration: "none", color: "inherit" }}>
           <Item>
             <ExploreOutlined />

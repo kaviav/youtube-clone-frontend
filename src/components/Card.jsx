@@ -56,13 +56,9 @@ const Info = styled.div`
 
 export const Card = ({ type, video }) => {
   const [channel, setChannel] = useState({});
-  console.log(video);
-  console.log(channel);
-  console.log(video.userId);
 
   useEffect(() => {
     const fetchChannel = async () => {
-      console.log(video.userId);
       const res = await axios.get(`/user/getone/${video.userId}`);
 
       setChannel(res.data);

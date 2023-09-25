@@ -8,7 +8,6 @@ import { persistor, store } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 // import axios from "axios";
 
-//
 // axios.defaults.baseURL = "http://localhost:5000/";
 //
 const root = ReactDOM.createRoot(document.getElementById("root"));

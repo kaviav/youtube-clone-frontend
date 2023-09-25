@@ -8,7 +8,7 @@ import {
 } from "@mui/icons-material";
 import styled from "styled-components";
 import { Comments } from "../components/Comments";
-import { Card } from "../components/Card";
+// import { Card } from "../components/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -125,10 +125,7 @@ export const Video = () => {
   const dispatch = useDispatch();
 
   const videoIds = useLocation().pathname.split("/")[2];
-  console.log(videoIds);
-
   const [channel, setChannel] = useState({});
-  const [videor, setVideor] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -137,14 +134,13 @@ export const Video = () => {
         const channelRes = await axios.get(
           `/user/getone/${videoRes.data.userId}`
         );
-        setVideor(videoRes.data);
+
         setChannel(channelRes.data);
         dispatch(fetchSuccess(videoRes.data));
       } catch (err) {}
     };
     fetchData();
   }, [videoIds, dispatch]);
-  console.log(videor);
 
   const handleLike = async () => {
     await axios.put(`/user/like/${currentVideo._id}`);
@@ -169,6 +165,7 @@ export const Video = () => {
       <Content>
         <VideoWrapper>
           <VideoFrame src={currentVideo.videoUrl} controls />
+          {/* controls: to add video playing functionality */}
         </VideoWrapper>
         <Title>{currentVideo.title}</Title>
         <Details>
@@ -181,7 +178,7 @@ export const Video = () => {
                 <ThumbUp />
               ) : (
                 <ThumbUpOutlined />
-              )}{" "}
+              )}
               {currentVideo.likes?.length}
             </Button>
             <Button onClick={handleDislike}>
@@ -189,7 +186,7 @@ export const Video = () => {
                 <ThumbDown />
               ) : (
                 <ThumbDownOffAltOutlined />
-              )}{" "}
+              )}
               Dislike
             </Button>
             <Button>
@@ -203,11 +200,11 @@ export const Video = () => {
         <Hr />
         <Channel>
           <ChannelInfo>
-            <Image src={channel.img} />
+            <Image src={channel.image} />
             <ChannelDetail>
               <ChannelName>{channel.name}</ChannelName>
               <ChannelCounter>{channel.subscribers} subscribers</ChannelCounter>
-              <Description>{currentVideo.desc}</Description>
+              <Description>{currentVideo.description}</Description>
             </ChannelDetail>
           </ChannelInfo>
           <Subscribe onClick={handleSub}>

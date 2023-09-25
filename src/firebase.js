@@ -3,11 +3,11 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBDRC2rZctDKfM4einR30BM1oStVQ58P3c",
-  authDomain: "video-7801c.firebaseapp.com",
-  projectId: "video-7801c",
-  storageBucket: "video-7801c.appspot.com",
-  messagingSenderId: "130073115219",
-  appId: "1:130073115219:web:365035e1474abbe7fba4a6",
+  authDomain: "wutube-56ddc.firebaseapp.com",
+  projectId: "wutube-56ddc",
+  storageBucket: "wutube-56ddc.appspot.com",
+  messagingSenderId: "410704037087",
+  appId: "1:410704037087:web:a87a28d1a6685f52a6156a",
 };
 
 const app = initializeApp(firebaseConfig);

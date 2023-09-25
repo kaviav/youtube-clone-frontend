@@ -7,6 +7,7 @@ import { Route, Routes } from "react-router-dom";
 import { Video } from "./pages/Video";
 import { Home } from "./pages/Home";
 import { SignIn } from "./pages/SignIn";
+import { Search } from "./pages/Search";
 
 const Container = styled.div`
   display: flex;
@@ -36,6 +37,8 @@ export const App = () => {
               {/* fetching most viewed videos first */}
               <Route path="/subscriptions" element={<Home type="sub" />} />
               {/* fetches only the subscribed videos */}
+              <Route path="/search" element={<Search />} />
+              {/* search functionality, redirect to the searched videos page */}
               <Route path="/signin" element={<SignIn />} />
               <Route path="/video/:id" element={<Video />} />
             </Routes>
