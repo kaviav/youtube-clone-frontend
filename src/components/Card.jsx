@@ -1,7 +1,7 @@
 import styled from "styled-components";
 // import image from "../image/log.png";
 import { Link } from "react-router-dom";
-import { format } from "timeago.js";
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -76,7 +76,7 @@ export const Card = ({ type, video }) => {
             <Title>{video.title}</Title>
             <ChannelName>{channel.name}</ChannelName>
             <Info>
-              {video.views} views • {format(video.createdAt)} ago
+              {video.views} views • {video.createdAt} ago
             </Info>
           </Texts>
         </Details>
